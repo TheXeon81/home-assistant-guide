@@ -1,0 +1,25 @@
+# Il server di casa non deve restare spento: riaccensione automatica, Wake-on-LAN e allarme esterno
+# Sezione / Section: Accorgersene subito: Healthchecks.io
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-server-sempre-acceso-wake-on-lan-healthchecks.html
+
+# configuration.yaml
+rest_command:
+  healthchecks_ha:
+    url: !secret healthchecks_ha_url
+    method: get
+    timeout: 10
+
+# secrets.yaml
+healthchecks_ha_url: https://hc-ping.com/IL-TUO-CODICE
+
+# automations.yaml
+- id: healthchecks_ping_ha
+  alias: Healthchecks - segnale di vita
+  mode: single
+  triggers:
+    - trigger: time_pattern
+      minutes: "/1"
+  actions:
+    - action: rest_command.healthchecks_ha
+      continue_on_error: true

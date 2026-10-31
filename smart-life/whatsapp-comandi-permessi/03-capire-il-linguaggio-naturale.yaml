@@ -1,0 +1,19 @@
+# Smart Life su WhatsApp: comandare luci, prese, clima e scene di casa con un messaggio (e decidere chi può farlo)
+# Sezione / Section: Capire il linguaggio naturale
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-smart-life-whatsapp-comandi-permessi.html
+
+parole: "{{ (pulito | string).split(' ') }}"
+verbo: >-
+  {% if parole | select('in', ['accendi', 'on']) | list %}on
+  {%- elif parole | select('in', ['spegni', 'off']) | list %}off{% endif %}
+numero: "{{ (parole | select('match', '^[0-9]+([.,][0-9]+)?$') | list + [''])[0] | replace(',', '.') }}"
+modi: {freddo: cool, caldo: heat, deumidifica: dry, ventola: fan_only, auto: auto}
+modo: "{{ (parole | select('in', modi.keys() | list) | list + [''])[0] }}"
+sezione: >-
+  {% set m = {'luci': 'luci', 'luce': 'luci', 'prese': 'prese', 'scene': 'scene',
+              'clima': 'clima', 'gas': 'gas'} %}
+  {% set ns = namespace(s='') %}
+  {% for p in parole if p in m and not ns.s %}{% set ns.s = m[p] %}{% endfor %}
+  {{ ns.s }}
+tutte: "{{ 'tutte' in parole or 'tutti' in parole }}"

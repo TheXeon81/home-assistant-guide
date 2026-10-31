@@ -1,0 +1,13 @@
+# Smart Life in Home Assistant: collegare l'app Tuya senza password e correggere le prese che misurano per dieci
+# Sezione / Section: Una scheda costruita dal registro
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-smart-life-tuya.html
+
+- type: thermostat
+  entity: climate.caldaia
+  name: Caldaia
+- type: tile
+  entity: light.scrivania
+  name: Scrivania
+  features:
+    - type: light-brightness

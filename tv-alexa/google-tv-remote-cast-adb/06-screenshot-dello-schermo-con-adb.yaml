@@ -1,0 +1,17 @@
+# Google TV in Home Assistant: Android TV Remote, Google Cast e ADB insieme
+# Sezione / Section: Screenshot dello schermo con ADB
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/google-tv-android-tv-remote-cast-adb-home-assistant.html
+
+- action: androidtv.adb_command
+  target:
+    entity_id: media_player.<tv_adb>
+  data:
+    command: "screencap -p /sdcard/x.png"
+
+- action: androidtv.download
+  target:
+    entity_id: media_player.<tv_adb>
+  data:
+    device_path: /sdcard/x.png
+    local_path: /media/tv/x.png

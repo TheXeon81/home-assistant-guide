@@ -1,0 +1,15 @@
+# Il server di casa non deve restare spento: riaccensione automatica, Wake-on-LAN e allarme esterno
+# Sezione / Section: Livello 3 · la presa smart, la soluzione più robusta
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-server-sempre-acceso-wake-on-lan-healthchecks.html
+
+type: entities
+title: 🖥️ Server
+entities:
+  - entity: switch.presa_server
+    name: Alimentazione mini PC
+    icon: mdi:power-plug
+    tap_action:
+      action: toggle
+      confirmation:
+        text: Spegnere la presa del server? Home Assistant si spegne e non potrà riaccenderla.

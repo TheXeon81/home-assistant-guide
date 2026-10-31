@@ -1,0 +1,10 @@
+# Lista della spesa con Home Assistant: WhatsApp, vocali, Alexa e Google in un'unica nota
+# Sezione / Section: Capire cosa si chiede
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-lista-spesa-whatsapp-vocali-alexa.html
+
+🎙️ Ho capito: «Aggiungi latte e pane alla lista della spesa.»
+
+🛒 AGGIUNTO ALLA SPESA
+➕ Latte
+➕ Pane

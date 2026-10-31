@@ -1,0 +1,12 @@
+# Telecamere su WhatsApp con Home Assistant: foto negli avvisi e scatti a richiesta
+# Sezione / Section: Le telecamere a richiesta
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-telecamere-whatsapp-foto.html
+
+📷 TELECAMERE
+━━━━━━━━━━━━━━
+1. CAM1 (Arlo)
+2. CAM2 (Arlo)
+3. Caldaia (Blink)
+…
+👉 Rispondi con il numero o il nome.

@@ -1,0 +1,26 @@
+# Google TV in Home Assistant: Android TV Remote, Google Cast e ADB insieme
+# Sezione / Section: ADB caduto dopo la riaccensione
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/google-tv-android-tv-remote-cast-adb-home-assistant.html
+
+- if:
+    - condition: state
+      entity_id: media_player.<tv_adb>
+      state: unavailable
+  then:
+    - repeat:
+        sequence:
+          - action: homeassistant.update_entity
+            target:
+              entity_id: media_player.<tv_adb>
+          - delay: "00:00:05"
+        until:
+          - condition: template
+            value_template: >
+              {{ not is_state('media_player.<tv_adb>', 'unavailable')
+                 or repeat.index >= 5 }}
+- action: androidtv.adb_command
+  target:
+    entity_id: media_player.<tv_adb>
+  data:
+    command: "monkey -p com.google.android.youtube.tv -c android.intent.category.LEANBACK_LAUNCHER 1"

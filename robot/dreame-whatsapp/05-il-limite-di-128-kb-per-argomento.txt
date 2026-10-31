@@ -1,0 +1,8 @@
+# Il robot aspirapolvere Dreame su WhatsApp con Home Assistant: avvisi con immagini e comandi
+# Sezione / Section: Il limite di 128 KB per argomento
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-robot-dreame-whatsapp.html
+
+1 argomento da 120000 caratteri:  ok
+1 argomento da 300000 caratteri:  Argument list too long
+4 argomenti da 100000 caratteri:  ok

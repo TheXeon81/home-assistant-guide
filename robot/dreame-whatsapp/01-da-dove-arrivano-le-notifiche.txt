@@ -1,0 +1,7 @@
+# Il robot aspirapolvere Dreame su WhatsApp con Home Assistant: avvisi con immagini e comandi
+# Sezione / Section: Da dove arrivano le notifiche
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-robot-dreame-whatsapp.html
+
+### Spazzola principale incastrata
+Pulisci la spazzola principale![image](data:image/png;base64,iVBORw0KGgo...)

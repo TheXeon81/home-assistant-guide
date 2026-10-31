@@ -1,0 +1,12 @@
+# Telecamere Arlo in Home Assistant: quando la foto «nuova» è di due giorni fa (e come accorgersene)
+# Sezione / Section: Parte 1 · controllo di freschezza prima di inviare
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-arlo-foto-non-aggiornata-base-offline.html
+
+{% set src = state_attr('camera.arlo_cam1', 'image_source') | string %}
+{# "snapshot/10-27 15:54" → "10-27 15:54" #}
+{% set quando = src.split('/')[-1] %}
+{# aggiungo l'anno; con none come default un valore strano non manda in errore il template #}
+{% set t = strptime(now().year ~ '-' ~ quando, '%Y-%m-%d %H:%M', none) %}
+{# l'orario è locale: as_local gli dà il fuso di Home Assistant #}
+{{ t is not none and as_timestamp(t | as_local) >= richiesta - 90 }}

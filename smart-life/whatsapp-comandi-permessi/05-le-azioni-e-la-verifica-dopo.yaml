@@ -1,0 +1,18 @@
+# Smart Life su WhatsApp: comandare luci, prese, clima e scene di casa con un messaggio (e decidere chi può farlo)
+# Sezione / Section: Le azioni, e la verifica dopo
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-smart-life-whatsapp-comandi-permessi.html
+
+- if: "{{ is_state(trovato, 'off') }}"
+  then:
+    - action: climate.turn_on
+      continue_on_error: true
+      target: {entity_id: "{{ trovato }}"}
+- action: climate.set_temperature
+  continue_on_error: true
+  target: {entity_id: "{{ trovato }}"}
+  data:
+    temperature: >-
+      {% set t = numero | float(0) %}
+      {{ [[t, state_attr(trovato, 'min_temp') | float(5)] | max,
+          state_attr(trovato, 'max_temp') | float(35)] | min }}

@@ -1,0 +1,35 @@
+# Blink sempre armato: riarmo automatico, comandi WhatsApp e avvisi con Home Assistant
+# Sezione / Section: Il sensore con l'elenco dei sistemi
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-blink-riarmo-automatico-whatsapp.html
+
+template:
+  - sensor:
+      - name: Blink sistemi
+        unique_id: blink_sistemi
+        state: "{{ this.attributes.sistemi | default([]) | count }}"
+        attributes:
+          sistemi: >-
+            {% set camere = integration_entities('blink') | select('match', 'camera\.') | list %}
+            {% set moduli = camere | map('state_attr', 'sync_module') | reject('none') | unique | list %}
+            {% set auto = is_state('input_boolean.blink_riarmo_auto', 'on') %}
+            {% set minuti = states('input_number.blink_riarmo_minuti') | float(0) | int %}
+            {% set prog = as_datetime(states('input_text.blink_riarmo_programmato')) %}
+            {% set ns = namespace(l=[]) %}
+            {% for m in moduli %}
+              {% set p = 'alarm_control_panel.blink_' ~ (m | slugify) %}
+              {% set da = states[p].last_changed if states[p] is not none else none %}
+              {% set riarmo = '' %}
+              {% if is_state(p, 'disarmed') %}
+                {% if prog is not none %}{% set riarmo = (prog | as_local).isoformat() %}
+                {% elif auto and da is not none %}{% set riarmo = ((da + timedelta(minutes=minuti)) | as_local).isoformat() %}
+                {% endif %}
+              {% endif %}
+              {% set ns.l = ns.l + [{
+                'entity': p, 'nome': m, 'stato': states(p),
+                'da': da.isoformat() if da is not none else '',
+                'modulo': state_attr(p, 'status') | string,
+                'camere': camere | map('state_attr', 'sync_module') | select('eq', m) | list | count,
+                'riarmo': riarmo }] %}
+            {% endfor %}
+            {{ ns.l }}

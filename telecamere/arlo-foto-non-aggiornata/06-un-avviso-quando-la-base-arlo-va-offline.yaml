@@ -1,0 +1,62 @@
+# Telecamere Arlo in Home Assistant: quando la foto «nuova» è di due giorni fa (e come accorgersene)
+# Sezione / Section: Parte 3 · un avviso quando la base Arlo va offline
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-arlo-foto-non-aggiornata-base-offline.html
+
+automation:
+  - id: base_arlo_offline
+    alias: Base Arlo - offline
+    mode: single
+    triggers:
+      - trigger: time_pattern
+        minutes: "/5"
+    conditions:
+      - condition: state
+        entity_id: binary_sensor.aarlo_connected_base
+        state: "off"
+        for: "00:10:00"
+      - condition: state
+        entity_id: input_boolean.base_arlo_avvisata
+        state: "off"
+    actions:
+      - action: input_boolean.turn_on
+        target:
+          entity_id: input_boolean.base_arlo_avvisata
+      - action: script.invia_avviso
+        data:
+          canali: "{{ states('input_select.avviso_base_arlo') }}"
+          # il gateway restituisce l'id del messaggio: lo salvo per la risposta
+          salva_id_in: input_text.base_arlo_msg_offline
+          testo: |-
+            *📡 BASE ARLO OFFLINE*
+            ━━━━━━━━━━━━━━
+            Le telecamere Arlo non possono scattare.
+            _Le foto che arrivano sono le ultime in memoria_
+
+  - id: base_arlo_online
+    alias: Base Arlo - tornata online
+    mode: single
+    triggers:
+      - trigger: time_pattern
+        minutes: "/5"
+    conditions:
+      - condition: state
+        entity_id: binary_sensor.aarlo_connected_base
+        state: "on"
+        for: "00:02:00"
+      - condition: state
+        entity_id: input_boolean.base_arlo_avvisata
+        state: "on"
+    actions:
+      - action: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.base_arlo_avvisata
+      - action: script.invia_avviso
+        data:
+          canali: "{{ states('input_select.avviso_base_arlo') }}"
+          # risposta citando l'avviso di offline
+          rispondi_a: "{{ states('input_text.base_arlo_msg_offline') }}"
+          testo: |-
+            *✅ BASE ARLO TORNATA ONLINE*
+            ━━━━━━━━━━━━━━
+            Le telecamere possono di nuovo scattare.

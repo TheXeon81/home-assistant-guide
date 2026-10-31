@@ -1,0 +1,31 @@
+# Avvisi di Home Assistant su WhatsApp, email e app: un solo script, tre canali e un menu per scegliere
+# Sezione / Section: WhatsApp: il gateway OpenWA
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/messaggi-whatsapp-email-notifiche-home-assistant.html
+
+name: openwa
+
+services:
+  openwa:
+    image: ghcr.io/rmyndharis/openwa:latest
+    container_name: openwa
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:2785:2785"      # dashboard e API solo dal mini PC
+    environment:
+      TZ: Europe/Rome
+      AUTO_START_SESSIONS: "true"              # la sessione riparte da sola dopo un riavvio
+      SEND_PACING_ENABLED: "true"              # limite giornaliero e riscaldamento anti-ban di OpenWA
+      SSRF_ALLOWED_HOSTS: "homeassistant"      # i webhook possono raggiungere solo Home Assistant
+    volumes:
+      - openwa-data:/app/data      # sessione WhatsApp, database, chiave API
+    shm_size: 512mb                # Chromium
+    networks:
+      - srv-home
+
+volumes:
+  openwa-data:
+
+networks:
+  srv-home:
+    external: true

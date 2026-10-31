@@ -1,0 +1,10 @@
+# Google TV in Home Assistant: Android TV Remote, Google Cast e ADB insieme
+# Sezione / Section: Aprire le app
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/google-tv-android-tv-remote-cast-adb-home-assistant.html
+
+- action: androidtv.adb_command
+  target:
+    entity_id: media_player.<tv_adb>
+  data:
+    command: "monkey -p com.netflix.ninja -c android.intent.category.LEANBACK_LAUNCHER 1"

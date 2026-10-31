@@ -1,0 +1,36 @@
+# Portare gli access point Omada in Home Assistant: client, traffico e avvisi
+# Sezione / Section: L'installazione in Home Assistant
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/wifi-omada-home-assistant.html
+
+# packages/omada.yaml (estratto)
+command_line:
+  - sensor:
+      name: Omada dati
+      unique_id: omada_dati
+      command: !secret omada_command
+      scan_interval: 60
+      command_timeout: 30
+      value_template: "{{ value_json.global.aps_online }}"
+      json_attributes: [updated, global, aps, ssids, clients]
+
+# I dati grezzi cambiano di continuo: non servono nella cronologia
+recorder:
+  exclude:
+    entities:
+      - sensor.omada_dati
+
+template:
+  - sensor:
+      - name: Omada client attivi
+        unique_id: omada_client_attivi
+        unit_of_measurement: client
+        state_class: measurement
+        availability: "{{ has_value('sensor.omada_dati') }}"
+        state: "{{ (state_attr('sensor.omada_dati', 'global') or {})['clients_active'] | int(0) }}"
+  - binary_sensor:
+      - name: Omada problema AP
+        unique_id: omada_problema_ap
+        device_class: problem
+        availability: "{{ has_value('sensor.omada_dati') }}"
+        state: "{{ ((state_attr('sensor.omada_dati', 'global') or {})['aps_offline'] | int(0)) > 0 }}"

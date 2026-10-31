@@ -1,0 +1,9 @@
+# Telecamere su WhatsApp con Home Assistant: foto negli avvisi e scatti a richiesta
+# Sezione / Section: Due bug che vale la pena raccontare
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-telecamere-whatsapp-foto.html
+
+# prima: sempre falso
+a[0] == dest
+# dopo
+a[0] == dest | string

@@ -1,0 +1,13 @@
+# Lista della spesa con Home Assistant: WhatsApp, vocali, Alexa e Google in un'unica nota
+# Sezione / Section: Alexa: un travaso, e un errore di lettura
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-lista-spesa-whatsapp-vocali-alexa.html
+
+- action: todo.get_items
+  target:
+    entity_id:
+      - todo.lista_spesa_alexa
+      - todo.google_keep_spesa
+  data:
+    status: needs_action
+  response_variable: liste

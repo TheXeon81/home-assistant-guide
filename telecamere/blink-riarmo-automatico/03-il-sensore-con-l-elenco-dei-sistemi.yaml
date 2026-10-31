@@ -1,0 +1,12 @@
+# Blink sempre armato: riarmo automatico, comandi WhatsApp e avvisi con Home Assistant
+# Sezione / Section: Il sensore con l'elenco dei sistemi
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-blink-riarmo-automatico-whatsapp.html
+
+      - name: Blink prossimo riarmo
+        unique_id: blink_prossimo_riarmo
+        device_class: timestamp
+        state: >-
+          {% set l = state_attr('sensor.blink_sistemi', 'sistemi') or [] %}
+          {% set orari = l | selectattr('stato', 'eq', 'disarmed') | map(attribute='riarmo') | reject('eq', '') | sort | list %}
+          {{ orari[0] if orari | count > 0 else none }}

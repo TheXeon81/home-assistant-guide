@@ -1,0 +1,27 @@
+# Un monitor di rete in Home Assistant: router, access point, Internet e DNS, con registro delle interruzioni e log del router
+# Sezione / Section: L'installazione
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/monitor-rete-router-syslog-home-assistant.html
+
+- alias: Rete interruzione rilevata
+  id: rete_evento
+  mode: queued
+  triggers:
+    - trigger: state
+      entity_id: sensor.rete_dati
+      attribute: evento
+  conditions:
+    - condition: template
+      value_template: >-
+        {% set nuovo = (trigger.to_state.attributes.evento if trigger.to_state else none) or {} %}
+        {% set vecchio = (trigger.from_state.attributes.evento if trigger.from_state else none) or {} %}
+        {{ trigger.from_state is not none
+           and trigger.from_state.state not in ['unavailable', 'unknown']
+           and nuovo.get('id', 0) | int(0) > 0
+           and nuovo.get('id', 0) != vecchio.get('id', 0) }}
+  actions:
+    - action: script.avviso
+      data:
+        titolo: "Rete: interruzione rilevata"
+        messaggio: "{{ trigger.to_state.attributes.evento.testo }}"
+        attesa: 10

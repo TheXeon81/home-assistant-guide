@@ -1,0 +1,9 @@
+# Lista della spesa senza doppioni in Home Assistant: già presente, spuntato o nuovo
+# Sezione / Section: Un solo script per tutti
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-lista-spesa-senza-doppioni.html
+
+🛒 LISTA DELLA SPESA
+➕ Carciofi
+♻️ Asparagi (era spuntato, rimesso in lista)
+✅ Acqua (già presente)

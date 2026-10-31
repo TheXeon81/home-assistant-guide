@@ -1,0 +1,8 @@
+# WhatsApp di casa con Home Assistant: chi può scrivere, mittenti autorizzati e limite giornaliero
+# Sezione / Section: Il limite giornaliero, ora regolabile
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-whatsapp-mittenti-autorizzati.html
+
+limite: >-
+  {{ (states('input_number.wa_limite_max') | int(30))
+     if not is_state('input_boolean.wa_limite_attivo', 'off') else 1000000 }}

@@ -1,0 +1,10 @@
+# Comandare la Google TV da WhatsApp con Home Assistant
+# Sezione / Section: Le trappole dei template
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-google-tv-whatsapp.html
+
+# Sbagliato: con "tv volume 20" resto è il numero 20 e isdigit() fallisce
+- conditions: "{{ resto.isdigit() }}"
+
+# Giusto: ogni testo passa da | string prima di usarne i metodi
+- conditions: "{{ (resto | string).isdigit() }}"

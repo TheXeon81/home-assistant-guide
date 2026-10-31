@@ -1,0 +1,11 @@
+# Smart Life su WhatsApp: comandare luci, prese, clima e scene di casa con un messaggio (e decidere chi può farlo)
+# Sezione / Section: Capire il linguaggio naturale
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-smart-life-whatsapp-comandi-permessi.html
+
+pulito: >-
+  {{ testo | string | lower
+     | replace('à', 'a') | replace('è', 'e') | replace('é', 'e')
+     | replace('ì', 'i') | replace('ò', 'o') | replace('ù', 'u')
+     | regex_replace('[^a-z0-9, ]', ' ') | regex_replace(' +', ' ') | trim
+     | regex_replace('^casa(\s|$)', '') | trim }}

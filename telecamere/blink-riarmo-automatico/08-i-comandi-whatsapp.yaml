@@ -1,0 +1,91 @@
+# Blink sempre armato: riarmo automatico, comandi WhatsApp e avvisi con Home Assistant
+# Sezione / Section: I comandi WhatsApp
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-blink-riarmo-automatico-whatsapp.html
+
+script:
+  blink_comando:
+    alias: Blink - comando WhatsApp
+    mode: queued
+    fields:
+      testo: {}
+      chat: {}
+      nome: {}
+      admin: {}
+    sequence:
+      - variables:
+          parole: "{{ (testo | string | lower | trim).split()[1:] }}"
+          azione: "{{ parole[0] if parole | count > 0 else 'stato' }}"
+          valore: "{{ parole[1] if parole | count > 1 else '' }}"
+          is_admin: "{{ admin | string | lower in ['true', '1', 'on'] }}"
+          sistemi: "{{ (state_attr('sensor.blink_sistemi', 'sistemi') or []) | map(attribute='entity') | list }}"
+      - choose:
+          # PRIMA il controllo dei permessi, poi i rami che eseguono
+          - conditions: "{{ azione in ['auto', 'minuti'] and not is_admin }}"
+            sequence:
+              - action: script.whatsapp_rispondi
+                data:
+                  chat: "{{ chat }}"
+                  testo: |-
+                    *🔒 COMANDO RISERVATO*
+                    ━━━━━━━━━━━━━━
+                    Le impostazioni del riarmo sono riservate agli Admin.
+
+          - conditions: "{{ azione == 'arma' }}"
+            sequence:
+              - action: input_text.set_value
+                target:
+                  entity_id: input_text.blink_ultimo_comando
+                data:
+                  value: "arma|WhatsApp ({{ nome }})|{{ now().isoformat() }}"
+              - action: script.blink_arma
+                data:
+                  sistemi: "{{ sistemi }}"
+
+          - conditions: "{{ azione == 'disarma' }}"
+            sequence:
+              # prima il riarmo programmato, poi il disarmo: l'avviso lo legge subito
+              - action: input_text.set_value
+                target:
+                  entity_id: input_text.blink_riarmo_programmato
+                data:
+                  value: >-
+                    {{ (now() + timedelta(minutes=valore | string | int)).isoformat()
+                       if (valore | string).isdigit() else '' }}
+              - action: input_text.set_value
+                target:
+                  entity_id: input_text.blink_ultimo_comando
+                data:
+                  value: "disarma|WhatsApp ({{ nome }})|{{ now().isoformat() }}"
+              - action: alarm_control_panel.alarm_disarm
+                continue_on_error: true
+                target:
+                  entity_id: "{{ sistemi }}"
+
+          - conditions: "{{ azione == 'auto' and (valore | string) in ['on', 'off'] }}"
+            sequence:
+              - action: "input_boolean.turn_{{ valore }}"
+                target:
+                  entity_id: input_boolean.blink_riarmo_auto
+              - action: script.whatsapp_rispondi
+                data:
+                  chat: "{{ chat }}"
+                  testo: |-
+                    *🔁 RIARMO AUTOMATICO*
+                    ━━━━━━━━━━━━━━
+                    {{ '🟢 Acceso' if (valore | string) == 'on' else '⚫ Spento' }}
+
+          - conditions: "{{ azione == 'minuti' and (valore | string).isdigit() }}"
+            sequence:
+              - action: input_number.set_value
+                target:
+                  entity_id: input_number.blink_riarmo_minuti
+                data:
+                  value: "{{ valore | string | int }}"
+              - action: script.whatsapp_rispondi
+                data:
+                  chat: "{{ chat }}"
+                  testo: |-
+                    *🔁 RIARMO AUTOMATICO*
+                    ━━━━━━━━━━━━━━
+                    ⏱️ Riarmo dopo {{ valore }} minuti

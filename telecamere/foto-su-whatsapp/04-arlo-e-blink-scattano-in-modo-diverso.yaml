@@ -1,0 +1,10 @@
+# Telecamere su WhatsApp con Home Assistant: foto negli avvisi e scatti a richiesta
+# Sezione / Section: Arlo e Blink scattano in modo diverso
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-telecamere-whatsapp-foto.html
+
+- action: aarlo.camera_request_snapshot_to_file
+  target:
+    entity_id: camera.cam1
+  data:
+    filename: /media/richiesta_cam1.jpg

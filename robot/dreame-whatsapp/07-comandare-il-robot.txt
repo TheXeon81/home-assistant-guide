@@ -1,0 +1,11 @@
+# Il robot aspirapolvere Dreame su WhatsApp con Home Assistant: avvisi con immagini e comandi
+# Sezione / Section: Comandare il robot
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-robot-dreame-whatsapp.html
+
+• robot pulisci · tutta la casa
+• robot pulisci cucina e bagno · solo quelle stanze
+• robot pausa · robot riprendi · robot base · robot stop
+• robot potenza turbo · silenzioso, standard, alta, turbo
+• robot modalita lava bagno · aspira, lava, entrambi, lava dopo
+• robot mappa

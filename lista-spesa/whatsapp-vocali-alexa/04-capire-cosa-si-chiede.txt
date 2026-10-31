@@ -1,0 +1,9 @@
+# Lista della spesa con Home Assistant: WhatsApp, vocali, Alexa e Google in un'unica nota
+# Sezione / Section: Capire cosa si chiede
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-lista-spesa-whatsapp-vocali-alexa.html
+
+Aggiungi latte e pane alla lista della spesa  -> spesa  [Latte, Pane]
+Metti il prosciutto cotto e due mozzarelle    -> spesa  [Prosciutto cotto, Due mozzarelle]
+Togli il latte dalla lista                    -> togli  [Latte]
+Leggimi la lista                              -> lista

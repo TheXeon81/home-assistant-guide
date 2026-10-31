@@ -1,0 +1,7 @@
+# WhatsApp di casa con Home Assistant: chi può scrivere, mittenti autorizzati e limite giornaliero
+# Sezione / Section: Il bug: il proprietario non autorizzato
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-whatsapp-mittenti-autorizzati.html
+
+{% set numero = '393...' | int %}
+vecchio confronto: False   nuovo confronto: True   numero estraneo: False

@@ -1,0 +1,42 @@
+# Avvisi di Home Assistant su WhatsApp, email e app: un solo script, tre canali e un menu per scegliere
+# Sezione / Section: Inviare: uno script con un tetto giornaliero
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/messaggi-whatsapp-email-notifiche-home-assistant.html
+
+rest_command:
+  openwa_send:
+    url: !secret openwa_send_url
+    method: post
+    headers:
+      X-API-Key: !secret openwa_api_key
+    content_type: "application/json"
+    payload: '{"chatId": "{{ chat_id }}", "text": {{ text | tojson }} }'
+    timeout: 20
+
+script:
+  notifica:
+    alias: Notifica
+    mode: queued
+    max: 20
+    fields:
+      messaggio: { name: Messaggio, required: true, selector: { text: { multiline: true } } }
+    variables:
+      limite: 30
+      targets: !secret wa_chat_ids
+    sequence:
+      - repeat:
+          for_each: "{{ targets }}"
+          sequence:
+            - choose:
+                - conditions: "{{ states('counter.wa_inviati_oggi') | int(0) < limite }}"
+                  sequence:
+                    - action: rest_command.openwa_send
+                      data: { chat_id: "{{ repeat.item }}", text: "{{ messaggio }}" }
+                      response_variable: resp
+                      continue_on_error: true
+                    - action: counter.increment
+                      target: { entity_id: counter.wa_inviati_oggi }
+                    - delay: { seconds: "{{ range(3, 8) | random }}" }
+              default:
+                - action: counter.increment
+                  target: { entity_id: counter.wa_soppressi_oggi }

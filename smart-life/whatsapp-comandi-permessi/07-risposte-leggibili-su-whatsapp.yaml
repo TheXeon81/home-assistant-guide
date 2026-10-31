@@ -1,0 +1,24 @@
+# Smart Life su WhatsApp: comandare luci, prese, clima e scene di casa con un messaggio (e decidere chi può farlo)
+# Sezione / Section: Risposte leggibili su WhatsApp
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-smart-life-whatsapp-comandi-permessi.html
+
+testo: |-
+  {%- macro riga(d) -%}
+    {%- set s = states(d.id) -%}
+    {%- if s in ['unavailable', 'unknown'] -%}{{ d.nome }}: ⚠️ non raggiungibile
+    {%- elif d.tipo == 'termostato' -%}{{ d.nome }}: {{ '⚫ spento' if s == 'off' else '🟢 ' ~ {'heat': 'caldo', 'cool': 'freddo', 'dry': 'deumidifica', 'fan_only': 'ventola'}.get(s, s) }} · ambiente {{ state_attr(d.id, 'current_temperature') }} °C{{ ' → ' ~ state_attr(d.id, 'temperature') ~ ' °C' if s != 'off' }}
+    {%- elif d.tipo == 'luce' -%}{{ d.nome }}: {{ '🟢 accesa ' ~ ((state_attr(d.id, 'brightness') | int(0)) / 2.55) | round(0) | int ~ '%' if s == 'on' else '⚫ spenta' }}
+    {%- elif d.tipo == 'presa' -%}{{ d.nome }}: {{ '🟢 accesa' if s == 'on' else '⚫ spenta' }} · {{ states(d.potenza) }} W
+    {%- elif d.tipo == 'gas' -%}{{ d.nome }}: {{ '🚨 gas rilevato' if s == 'on' else '✅ nessuna fuga' }}
+    {%- else -%}{{ d.nome }}: {{ s }}{%- endif -%}
+  {%- endmacro -%}
+  {%- macro sezione(nome) -%}
+  *{{ titoli[nome] }}*
+  {% for d in dispositivi | selectattr('sez', 'eq', nome) %}{{ riga(d) }}
+  {% endfor %}
+  {%- endmacro -%}
+  *🏠 CASA*
+  ━━━━━━━━━━━━━━
+  {% for n in ['clima', 'luci', 'prese', 'scene', 'gas'] if n in sezioni %}{{ sezione(n) }}
+  {% endfor %}

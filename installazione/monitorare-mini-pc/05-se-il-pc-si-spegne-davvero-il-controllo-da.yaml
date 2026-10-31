@@ -1,0 +1,20 @@
+# Monitorare il mini PC che ospita Home Assistant: sensori, avvisi e accesso da fuori casa
+# Sezione / Section: Se il PC si spegne davvero: il controllo da fuori
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/monitorare-mini-pc-home-assistant.html
+
+rest_command:
+  heartbeat_ha:
+    url: !secret heartbeat_ha_url
+    method: get
+    timeout: 15
+
+automation:
+  - alias: Battito verso il controllo esterno
+    id: heartbeat_ha
+    triggers:
+      - trigger: time_pattern
+        minutes: "/1"
+    actions:
+      - action: rest_command.heartbeat_ha
+        continue_on_error: true

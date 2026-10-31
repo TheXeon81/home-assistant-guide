@@ -1,0 +1,17 @@
+# Google TV in Home Assistant: Android TV Remote, Google Cast e ADB insieme
+# Sezione / Section: L'URL interno di Home Assistant
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/google-tv-android-tv-remote-cast-adb-home-assistant.html
+
+- action: media_player.volume_set
+  target:
+    entity_id: media_player.<tv_cast>
+  data:
+    volume_level: 0.25
+
+- action: tts.speak
+  target:
+    entity_id: tts.<motore_tts>
+  data:
+    media_player_entity_id: media_player.<tv_cast>
+    message: "La lavatrice ha finito"

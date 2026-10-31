@@ -1,0 +1,31 @@
+# Blink sempre armato: riarmo automatico, comandi WhatsApp e avvisi con Home Assistant
+# Sezione / Section: Le entità di configurazione
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-blink-riarmo-automatico-whatsapp.html
+
+input_boolean:
+  blink_riarmo_auto:
+    name: Blink riarmo automatico
+    icon: mdi:shield-refresh
+  blink_errore_in_corso:
+    name: Blink errore in corso
+
+input_number:
+  blink_riarmo_minuti:
+    name: Blink riarma dopo (minuti)
+    min: 0
+    max: 240
+    step: 5
+    mode: box
+    unit_of_measurement: min
+
+input_text:
+  blink_riarmo_programmato:
+    name: Blink riarmo programmato
+    max: 40
+  blink_ultimo_comando:
+    name: Blink ultimo comando
+    max: 255
+  blink_ultimo_errore:
+    name: Blink ultimo errore
+    max: 255

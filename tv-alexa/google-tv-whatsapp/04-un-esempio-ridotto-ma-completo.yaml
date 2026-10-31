@@ -1,0 +1,118 @@
+# Comandare la Google TV da WhatsApp con Home Assistant
+# Sezione / Section: Un esempio ridotto ma completo
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-google-tv-whatsapp.html
+
+script:
+  tv_comando:
+    mode: queued
+    fields:
+      testo:
+        description: Il messaggio ricevuto
+      chat:
+        description: La chat a cui rispondere
+    sequence:
+      - variables:
+          originale: "{{ testo | string | trim }}"
+          pulito: >-
+            {{ originale | lower
+               | replace('à', 'a') | replace('è', 'e') | replace('é', 'e')
+               | replace('ì', 'i') | replace('ò', 'o') | replace('ù', 'u')
+               | regex_replace('[^a-z0-9 ]', ' ') | regex_replace(' +', ' ') | trim }}
+          parole: "{{ (pulito | string).split(' ')[1:] }}"
+          azione: "{{ parole[0] if parole | count > 0 else 'stato' }}"
+          resto: "{{ parole[1:] | join(' ') }}"
+          app_mappa:
+            netflix: com.netflix.ninja
+            youtube: com.google.android.youtube.tv
+            prime video: com.amazon.amazonvideo.livingroom
+            disney plus: com.disney.disneyplus
+            raiplay: it.rainet.androidtv
+          sinonimi:
+            prime: prime video
+            amazon: prime video
+            rai: raiplay
+      - choose:
+          # tv: stato
+          - conditions: "{{ azione == 'stato' }}"
+            sequence:
+              - variables:
+                  st: "{{ states('media_player.tv_remote') }}"
+                  accesa: "{{ st not in ['off', 'unavailable', 'unknown'] }}"
+                  app: "{{ state_attr('media_player.tv_remote', 'app_name') or 'nessuna' }}"
+                  vol: "{{ ((state_attr('media_player.tv_cast', 'volume_level') or 0) * 100) | round(0) | int }}"
+              - action: script.whatsapp_rispondi
+                data:
+                  chat: "{{ chat }}"
+                  testo: |-
+                    {% if accesa %}*📺 TV*
+                    ━━━━━━━━━━━━━━
+                    🟢 Accesa
+                    📱 App: {{ app }}
+                    🔊 Volume: {{ vol }}{% else %}*📺 TV*
+                    ━━━━━━━━━━━━━━
+                    ⚫ Spenta{% endif %}
+
+                    _Scrivi tv aiuto per vedere i comandi_
+
+          # tv volume 20 / su / giu
+          - conditions: "{{ azione == 'volume' }}"
+            sequence:
+              - choose:
+                  - conditions: "{{ (resto | string).isdigit() }}"
+                    sequence:
+                      - action: media_player.volume_set
+                        continue_on_error: true
+                        target:
+                          entity_id: media_player.tv_cast
+                        data:
+                          volume_level: "{{ ([(resto | string) | int, 100] | min) / 100 }}"
+                  - conditions: "{{ (resto | string) in ['su', 'giu'] }}"
+                    sequence:
+                      - action: "{{ 'media_player.volume_up' if (resto | string) == 'su' else 'media_player.volume_down' }}"
+                        continue_on_error: true
+                        target:
+                          entity_id: media_player.tv_remote
+              - action: script.whatsapp_rispondi
+                data:
+                  chat: "{{ chat }}"
+                  testo: "*🔊 VOLUME*\n━━━━━━━━━━━━━━\nFatto: {{ resto }}"
+
+          # tv apri netflix
+          - conditions: "{{ azione == 'apri' }}"
+            sequence:
+              - variables:
+                  cerca: "{{ sinonimi.get(resto | string, resto | string) }}"
+                  nome: >-
+                    {% set c = cerca | string %}
+                    {% set nomi = app_mappa.keys() | list %}
+                    {% if c %}{{ ((nomi | select('eq', c) | list)
+                        + (nomi | select('match', c) | list)
+                        + (nomi | select('search', c) | list) + [''])[0] }}{% endif %}
+              - if: "{{ (nome | string | trim) == '' }}"
+                then:
+                  - action: script.whatsapp_rispondi
+                    data:
+                      chat: "{{ chat }}"
+                      testo: "*📺 APP DISPONIBILI*\n━━━━━━━━━━━━━━\n{{ app_mappa.keys() | join(', ') }}"
+                  - stop: App non trovata
+              - if: "{{ is_state('media_player.tv_adb', 'unavailable') }}"
+                then:
+                  - repeat:
+                      sequence:
+                        - action: homeassistant.update_entity
+                          continue_on_error: true
+                          target:
+                            entity_id: media_player.tv_adb
+                        - delay: "00:00:05"
+                      until: "{{ not is_state('media_player.tv_adb', 'unavailable') or repeat.index >= 5 }}"
+              - action: androidtv.adb_command
+                continue_on_error: true
+                target:
+                  entity_id: media_player.tv_adb
+                data:
+                  command: "monkey -p {{ app_mappa[nome | string | trim] }} -c android.intent.category.LEANBACK_LAUNCHER 1"
+              - action: script.whatsapp_rispondi
+                data:
+                  chat: "{{ chat }}"
+                  testo: "*📺 APP APERTA*\n━━━━━━━━━━━━━━\n▶️ {{ nome | string | trim }}"

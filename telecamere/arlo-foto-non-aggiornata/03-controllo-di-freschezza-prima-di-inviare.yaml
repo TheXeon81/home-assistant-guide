@@ -1,0 +1,32 @@
+# Telecamere Arlo in Home Assistant: quando la foto «nuova» è di due giorni fa (e come accorgersene)
+# Sezione / Section: Parte 1 · controllo di freschezza prima di inviare
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-arlo-foto-non-aggiornata-base-offline.html
+
+script:
+  foto_arlo:
+    alias: Foto Arlo con controllo di freschezza
+    mode: parallel
+    fields:
+      camera:
+        example: camera.arlo_cam1
+    sequence:
+      - variables:
+          richiesta: "{{ now().timestamp() }}"
+          file: "/config/www/scatti/{{ camera.split('.')[1] }}.jpg"
+      - repeat:
+          sequence:
+            - action: aarlo.camera_request_snapshot_to_file
+              continue_on_error: true
+              data:
+                entity_id: "{{ camera }}"
+                filename: "{{ file }}"
+          # al massimo 2 tentativi; si esce prima se la foto è nuova
+          until: >-
+            {% set t = strptime(now().year ~ '-' ~ (state_attr(camera, 'image_source') | string).split('/')[-1], '%Y-%m-%d %H:%M', none) %}
+            {{ repeat.index >= 2 or (t is not none and as_timestamp(t | as_local) >= richiesta - 90) }}
+      - variables:
+          scatto: >-
+            {% set t = strptime(now().year ~ '-' ~ (state_attr(camera, 'image_source') | string).split('/')[-1], '%Y-%m-%d %H:%M', none) %}
+            {{ (t | as_local).isoformat() if t is not none else '' }}
+          fresca: "{{ scatto != '' and as_timestamp(scatto) >= richiesta - 90 }}"

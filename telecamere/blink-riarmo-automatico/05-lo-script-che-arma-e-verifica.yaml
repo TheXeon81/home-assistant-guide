@@ -1,0 +1,61 @@
+# Blink sempre armato: riarmo automatico, comandi WhatsApp e avvisi con Home Assistant
+# Sezione / Section: Lo script che arma e verifica
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-blink-riarmo-automatico-whatsapp.html
+
+script:
+  blink_arma:
+    alias: Blink - arma
+    mode: single
+    max_exceeded: silent
+    fields:
+      sistemi:
+        description: Elenco dei sistemi da armare (vuoto = tutti)
+    sequence:
+      - variables:
+          lista: >-
+            {% set tutti = (state_attr('sensor.blink_sistemi', 'sistemi') or []) | map(attribute='entity') | list %}
+            {{ sistemi if sistemi is defined and sistemi | count > 0 else tutti }}
+      - action: alarm_control_panel.alarm_arm_away
+        continue_on_error: true
+        target:
+          entity_id: "{{ lista }}"
+      - wait_template: "{{ lista | reject('is_state', 'armed_away') | list | count == 0 }}"
+        timeout: "00:00:45"
+      - if: "{{ not wait.completed }}"
+        then:
+          - action: homeassistant.update_entity
+            continue_on_error: true
+            target:
+              entity_id: "{{ lista }}"
+          - wait_template: "{{ lista | reject('is_state', 'armed_away') | list | count == 0 }}"
+            timeout: "00:00:30"
+      - variables:
+          mancanti: "{{ lista | reject('is_state', 'armed_away') | list }}"
+      - if: "{{ mancanti | count > 0 }}"
+        then:
+          - variables:
+              motivo: >-
+                {% set p = mancanti[0] %}
+                {% if states(p) in ['unavailable', 'unknown'] %}integrazione non disponibile
+                {% elif (state_attr(p, 'status') | string | lower) == 'offline' %}modulo offline
+                {% else %}Blink non ha confermato{% endif %}
+          - action: input_text.set_value
+            target:
+              entity_id: input_text.blink_ultimo_errore
+            data:
+              value: "{{ motivo | trim }} ({{ now().strftime('%H:%M') }})"
+          - if: "{{ is_state('input_boolean.blink_errore_in_corso', 'off') }}"
+            then:
+              - action: input_boolean.turn_on
+                target:
+                  entity_id: input_boolean.blink_errore_in_corso
+              - action: script.avviso_categoria
+                data:
+                  categoria: telecamere
+                  testo: |-
+                    *⚠️ BLINK NON ARMATO*
+                    ━━━━━━━━━━━━━━
+                    Motivo: {{ motivo | trim }}
+
+                    _Riprovo ogni 5 minuti, ti avviso quando riesce_

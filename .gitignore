@@ -1,0 +1,4 @@
+# Mai pubblicare credenziali / Never commit credentials
+secrets.yaml
+*.env
+.env*

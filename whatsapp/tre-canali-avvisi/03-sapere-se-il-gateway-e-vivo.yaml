@@ -1,0 +1,20 @@
+# Avvisi di Home Assistant su WhatsApp, email e app: un solo script, tre canali e un menu per scegliere
+# Sezione / Section: Sapere se il gateway è vivo
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/messaggi-whatsapp-email-notifiche-home-assistant.html
+
+rest:
+  - resource: http://openwa:2785/api/sessions
+    scan_interval: 60
+    timeout: 15
+    headers:
+      X-API-Key: !secret openwa_api_key
+    binary_sensor:
+      - name: WhatsApp gateway connesso
+        unique_id: wa_gateway_connesso
+        device_class: connectivity
+        value_template: "{{ value_json | selectattr('status', 'eq', 'ready') | list | count > 0 }}"
+      - name: WhatsApp account con restrizioni
+        unique_id: wa_account_restrizioni
+        device_class: problem
+        value_template: "{{ value_json | selectattr('restriction', 'defined') | rejectattr('restriction', 'none') | list | count > 0 }}"

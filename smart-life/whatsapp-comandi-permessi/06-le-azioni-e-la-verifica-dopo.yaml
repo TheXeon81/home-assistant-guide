@@ -1,0 +1,10 @@
+# Smart Life su WhatsApp: comandare luci, prese, clima e scene di casa con un messaggio (e decidere chi può farlo)
+# Sezione / Section: Le azioni, e la verifica dopo
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-smart-life-whatsapp-comandi-permessi.html
+
+- delay: "00:00:05"
+- variables:
+    atteso: "{{ verbo if verbo in ['on', 'off'] else '' }}"
+    riuscito: "{{ atteso == '' or is_state(trovato, atteso) }}"
+    raggiungibile: "{{ states(trovato) not in ['unavailable', 'unknown'] }}"

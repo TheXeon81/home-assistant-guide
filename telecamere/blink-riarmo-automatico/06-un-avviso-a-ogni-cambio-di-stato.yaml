@@ -1,0 +1,69 @@
+# Blink sempre armato: riarmo automatico, comandi WhatsApp e avvisi con Home Assistant
+# Sezione / Section: Un avviso a ogni cambio di stato
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-blink-riarmo-automatico-whatsapp.html
+
+automation:
+  - id: blink_avviso_stato
+    alias: Blink - avviso cambio stato
+    mode: queued
+    triggers:
+      - trigger: state
+        entity_id: alarm_control_panel.blink_casa
+    conditions:
+      - "{{ trigger.from_state is not none and trigger.to_state is not none }}"
+      - "{{ trigger.from_state.state not in ['unavailable', 'unknown'] }}"
+      - "{{ trigger.to_state.state in ['armed_away', 'disarmed'] }}"
+    variables:
+      armato: "{{ trigger.to_state.state == 'armed_away' }}"
+      sistema: "{{ trigger.to_state.name }}"
+      chi: >-
+        {% set c = states('input_text.blink_ultimo_comando').split('|') %}
+        {% set azione = 'arma' if trigger.to_state.state == 'armed_away' else 'disarma' %}
+        {% set quando = as_datetime(c[2]) if c | count == 3 else none %}
+        {% set uid = trigger.to_state.context.user_id %}
+        {% if quando is not none and c[0] == azione and now() - quando < timedelta(minutes=3) %}{{ c[1] }}
+        {% elif uid %}dashboard ({{ states.person | selectattr('attributes.user_id', 'eq', uid) | map(attribute='name') | first | default('utente di Home Assistant') }})
+        {% else %}app Blink o altra fonte{% endif %}
+      durata: >-
+        {% set m = ((now() - trigger.from_state.last_changed).total_seconds() / 60) | int %}
+        {{ m ~ ' min' if m < 60 else (m // 60) ~ ' h ' ~ (m % 60) ~ ' min' }}
+      riarmo: >-
+        {% set prog = as_datetime(states('input_text.blink_riarmo_programmato')) %}
+        {% if prog is not none %}alle {{ (prog | as_local).strftime('%H:%M') }}
+        {% elif is_state('input_boolean.blink_riarmo_auto', 'on') %}alle {{ ((trigger.to_state.last_changed + timedelta(minutes=states('input_number.blink_riarmo_minuti') | float(0))) | as_local).strftime('%H:%M') }}
+        {% else %}spento{% endif %}
+      risolto: "{{ is_state('input_boolean.blink_errore_in_corso', 'on') }}"
+    actions:
+      - if: "{{ armato }}"
+        then:
+          - action: script.avviso_categoria
+            data:
+              categoria: telecamere
+              testo: |-
+                *🔒 BLINK RIARMATO*
+                ━━━━━━━━━━━━━━
+                📹 Sistema: {{ sistema }}
+                👤 Da: {{ chi | trim }}
+                ⏱️ Era disarmato da {{ durata | trim }}{% if risolto %}
+                ✅ Errore risolto{% endif %}
+          - action: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.blink_errore_in_corso
+          - action: input_text.set_value
+            target:
+              entity_id: input_text.blink_riarmo_programmato
+            data:
+              value: ""
+        else:
+          - action: script.avviso_categoria
+            data:
+              categoria: telecamere
+              testo: |-
+                *🔓 BLINK DISARMATO*
+                ━━━━━━━━━━━━━━
+                📹 Sistema: {{ sistema }}
+                👤 Da: {{ chi | trim }}
+                🔁 Riarmo: {{ riarmo | trim }}
+
+                _Scrivi blink arma per riarmarlo prima_

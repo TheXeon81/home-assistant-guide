@@ -1,0 +1,11 @@
+# La scheda Meteo di Home Assistant con Met.no: condizioni attuali, previsioni orarie e giornaliere, sole e dettagli in tre colonne
+# Sezione / Section: Tre colonne e altezze uguali
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/meteo-met-no-home-assistant.html
+
+- type: weather-forecast
+  grid_options:
+    rows: 5
+  entity: weather.forecast_casa
+  show_current: true
+  show_forecast: false

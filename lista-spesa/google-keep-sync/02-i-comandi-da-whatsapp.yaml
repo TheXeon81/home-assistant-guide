@@ -1,0 +1,19 @@
+# La lista della spesa in Home Assistant: Google Keep Sync installato con un commit fissato e comandi da WhatsApp
+# Sezione / Section: I comandi da WhatsApp
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/lista-spesa-google-keep-home-assistant.html
+
+- variables:
+    articoli: >-
+      {%- set resto = testo.split(None, 1)[1] if (testo.split(None, 1) | length) > 1 else '' -%}
+      {{ resto.replace('\n', ',').replace(';', ',').split(',') | map('trim') | reject('eq', '') | list }}
+- if: "{{ articoli | length > 0 }}"
+  then:
+    - repeat:
+        for_each: "{{ articoli }}"
+        sequence:
+          - action: todo.add_item
+            target:
+              entity_id: todo.NOME_DELLA_TUA_LISTA
+            data:
+              item: "{{ repeat.item | capitalize }}"

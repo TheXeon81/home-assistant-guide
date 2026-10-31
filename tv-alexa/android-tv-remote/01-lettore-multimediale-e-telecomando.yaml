@@ -1,0 +1,13 @@
+# Le TV Android in Home Assistant: cosa offre l'integrazione Android TV Remote, come lanciare le app e la scheda con due pulsanti di prova
+# Sezione / Section: Lettore multimediale e telecomando
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/android-tv-remote-home-assistant.html
+
+# Apre un video di YouTube (esempio della documentazione ufficiale)
+action: media_player.play_media
+data:
+  media:
+    media_content_type: url
+    media_content_id: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+target:
+  entity_id: media_player.living_room_tv

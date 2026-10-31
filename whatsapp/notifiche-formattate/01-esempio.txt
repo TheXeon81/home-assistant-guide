@@ -1,0 +1,6 @@
+# Notifiche WhatsApp da Home Assistant: da una riga di testo a messaggi veri
+# Sezione / Section: Esempio
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-notifiche-whatsapp-formattate.html
+
+Access point non raggiungibile: Non risponde: AP-DEPOSITO

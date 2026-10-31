@@ -1,0 +1,7 @@
+# Notifiche WhatsApp da Home Assistant: da una riga di testo a messaggi veri
+# Sezione / Section: La risposta che cita il guasto
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-notifiche-whatsapp-formattate.html
+
+evento: ap_online
+risponde_a: ap_offline

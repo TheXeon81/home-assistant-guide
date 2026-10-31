@@ -1,0 +1,6 @@
+# Il robot aspirapolvere Dreame su WhatsApp con Home Assistant: avvisi con immagini e comandi
+# Sezione / Section: Girare le notifiche su WhatsApp
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-robot-dreame-whatsapp.html
+
+immagine: "{{ (msg | regex_findall('data:image/png;base64,([A-Za-z0-9+/=]+)') | first) | default('') }}"

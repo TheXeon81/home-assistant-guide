@@ -1,0 +1,11 @@
+# Smart Life in Home Assistant: collegare l'app Tuya senza password e correggere le prese che misurano per dieci
+# Sezione / Section: Le prese che misuravano per dieci
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-smart-life-tuya.html
+
+- name: Deposito potenza corretta
+  unit_of_measurement: W
+  device_class: power
+  state_class: measurement
+  availability: "{{ has_value('sensor.deposito_potenza') }}"
+  state: "{{ (states('sensor.deposito_potenza') | float / 10) | round(1) }}"

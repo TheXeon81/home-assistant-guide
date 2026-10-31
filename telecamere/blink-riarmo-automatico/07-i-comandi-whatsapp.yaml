@@ -1,0 +1,26 @@
+# Blink sempre armato: riarmo automatico, comandi WhatsApp e avvisi con Home Assistant
+# Sezione / Section: I comandi WhatsApp
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-blink-riarmo-automatico-whatsapp.html
+
+- conditions: "{{ (testo | string | lower | trim).split(' ')[0] == 'blink' }}"
+  sequence:
+    - if: "{{ not (ruolo == 'admin' or 'telecamere' in categorie) }}"
+      then:
+        - action: script.whatsapp_rispondi
+          data:
+            chat: "{{ chat }}"
+            testo: |-
+              *🔒 COMANDO NON DISPONIBILE*
+              ━━━━━━━━━━━━━━
+              Il tuo profilo non comprende le telecamere.
+      else:
+        - action: script.turn_on
+          target:
+            entity_id: script.blink_comando
+          data:
+            variables:
+              testo: "{{ testo }}"
+              chat: "{{ chat }}"
+              nome: "{{ nome }}"
+              admin: "{{ ruolo == 'admin' }}"

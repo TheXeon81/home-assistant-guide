@@ -1,0 +1,6 @@
+# Notifiche WhatsApp da Home Assistant: da una riga di testo a messaggi veri
+# Sezione / Section: Due errori che vale la pena raccontare
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-notifiche-whatsapp-formattate.html
+
+- if: "{{ (resp.content.get('messageId') or '') | string != '' }}"

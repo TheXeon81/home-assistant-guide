@@ -1,0 +1,23 @@
+# La scheda Meteo di Home Assistant con Met.no: condizioni attuali, previsioni orarie e giornaliere, sole e dettagli in tre colonne
+# Sezione / Section: I cinque riquadri
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/meteo-met-no-home-assistant.html
+
+- type: weather-forecast
+  entity: weather.forecast_casa
+  show_current: false
+  show_forecast: true
+  forecast_type: hourly
+
+- type: entities
+  entities:
+    - type: attribute
+      entity: sun.sun
+      attribute: next_rising
+      name: Prossima alba
+      icon: mdi:weather-sunset-up
+    - type: attribute
+      entity: sun.sun
+      attribute: next_setting
+      name: Prossimo tramonto
+      icon: mdi:weather-sunset-down

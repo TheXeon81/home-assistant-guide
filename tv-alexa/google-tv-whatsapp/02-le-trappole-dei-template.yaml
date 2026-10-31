@@ -1,0 +1,11 @@
+# Comandare la Google TV da WhatsApp con Home Assistant
+# Sezione / Section: Le trappole dei template
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-google-tv-whatsapp.html
+
+- action: shell_command.tv_screenshot
+  response_variable: esito
+  continue_on_error: true
+- variables:
+    dati: "{{ esito.stdout | from_json if esito is defined and (esito.stdout | default('') | trim) != '' else {} }}"
+    riuscito: "{{ dati.ok | default(false) }}"

@@ -1,0 +1,24 @@
+# Avvisi di Home Assistant su WhatsApp, email e app: un solo script, tre canali e un menu per scegliere
+# Sezione / Section: Lo script «avviso» e il menu dei canali
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/messaggi-whatsapp-email-notifiche-home-assistant.html
+
+input_select:
+  avviso_temp_cpu:
+    name: "Temperatura CPU alta"
+    icon: mdi:bell-cog
+    options:
+      - "Tutti i canali"
+      - "WhatsApp + email"
+      - "WhatsApp + app"
+      - "Email + app"
+      - "Solo WhatsApp"
+      - "Solo email"
+      - "Solo app"
+      - "Nessuno"
+
+# dentro lo script "avviso":
+#   scelta:   {{ states('input_select.avviso_' ~ evento) }}
+#   usa_app:  {{ scelta in ['Tutti i canali', 'WhatsApp + app', 'Email + app', 'Solo app'] }}
+#   usa_mail: {{ scelta in ['Tutti i canali', 'WhatsApp + email', 'Email + app', 'Solo email'] }}
+#   usa_wa:   {{ scelta in ['Tutti i canali', 'WhatsApp + email', 'WhatsApp + app', 'Solo WhatsApp'] }}

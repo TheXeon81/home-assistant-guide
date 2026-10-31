@@ -1,0 +1,13 @@
+# Lista della spesa senza doppioni in Home Assistant: già presente, spuntato o nuovo
+# Sezione / Section: Leggere anche le voci spuntate
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-lista-spesa-senza-doppioni.html
+
+- action: todo.get_items
+  target:
+    entity_id: todo.google_keep_spesa
+  data:
+    status:
+      - needs_action
+      - completed
+  response_variable: voci

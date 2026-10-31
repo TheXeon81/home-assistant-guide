@@ -1,0 +1,12 @@
+# Telecamere Arlo in Home Assistant: quando la foto «nuova» è di due giorni fa (e come accorgersene)
+# Sezione / Section: Parte 2 · un avviso ben visibile nel messaggio
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-arlo-foto-non-aggiornata-base-offline.html
+
+testo: |-
+  *📷 {{ nome_telecamera }}*
+  ━━━━━━━━━━━━━━
+  🕐 Scatto: {{ as_timestamp(scatto) | timestamp_custom('%d/%m alle %H:%M') if scatto else 'sconosciuto' }}{% if not fresca %}
+
+  🔴🔴 *FOTO NON AGGIORNATA* 🔴🔴
+  *La telecamera non ha mandato una foto nuova: questa è l'ultima disponibile, del {{ as_timestamp(scatto) | timestamp_custom('%d/%m alle %H:%M') if scatto else 'giorno sconosciuto' }}.*{% endif %}

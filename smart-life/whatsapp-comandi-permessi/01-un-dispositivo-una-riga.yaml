@@ -1,0 +1,15 @@
+# Smart Life su WhatsApp: comandare luci, prese, clima e scene di casa con un messaggio (e decidere chi può farlo)
+# Sezione / Section: Un dispositivo, una riga
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-smart-life-whatsapp-comandi-permessi.html
+
+dispositivi:
+  - {id: climate.caldaia, nome: Caldaia, sez: clima, tipo: termostato, alias: [caldaia, riscaldamento]}
+  - {id: climate.argo, nome: Argo, sez: clima, tipo: termostato, alias: [argo, condizionatore]}
+  - {id: sensor.termometro, nome: Termometro, sez: clima, tipo: sensore, alias: [termometro]}
+  - {id: light.scrivania, nome: Scrivania, sez: luci, tipo: luce, alias: [luce scrivania, scrivania]}
+  - {id: switch.presa_2, nome: Presa 2, sez: prese, tipo: presa, alias: [presa 2], potenza: sensor.presa_2_potenza}
+  - {id: switch.presa_deposito, nome: Deposito, sez: prese, tipo: presa, alias: [presa deposito, deposito], potenza: sensor.presa_deposito_potenza}
+  - {id: scene.bagno, nome: Bagno, sez: scene, tipo: scena, alias: [scena bagno, bagno]}
+  - {id: scene.accendi_fuori, nome: Accendi fuori, sez: scene, tipo: scena, alias: [accendi fuori]}
+  - {id: binary_sensor.sensore_gas, nome: Sensore gas, sez: gas, tipo: gas, alias: [sensore gas]}

@@ -1,0 +1,20 @@
+# Monitorare il mini PC che ospita Home Assistant: sensori, avvisi e accesso da fuori casa
+# Sezione / Section: Gli avvisi: le soglie che uso
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/monitorare-mini-pc-home-assistant.html
+
+- alias: Avviso temperatura CPU alta
+  id: avv_temp_cpu
+  triggers:
+    - trigger: numeric_state
+      entity_id: sensor.NOME_SENSORE_TEMPERATURA_CPU
+      above: 85
+      for: "00:05:00"
+  conditions:
+    - condition: template
+      value_template: "{{ this.attributes.last_triggered is none or (now() - this.attributes.last_triggered).total_seconds() > 10800 }}"
+  actions:
+    - action: script.avviso
+      data:
+        titolo: "Temperatura CPU alta"
+        messaggio: "CPU del mini PC: {{ states('sensor.NOME_SENSORE_TEMPERATURA_CPU') | float(0) | round(0) | int }} °C da oltre 5 minuti."

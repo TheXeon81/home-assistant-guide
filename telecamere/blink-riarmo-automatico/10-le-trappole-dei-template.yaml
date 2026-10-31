@@ -1,0 +1,14 @@
+# Blink sempre armato: riarmo automatico, comandi WhatsApp e avvisi con Home Assistant
+# Sezione / Section: Le trappole dei template
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-blink-riarmo-automatico-whatsapp.html
+
+# con "blink minuti 30" valore è il numero 30
+# Sbagliato: isdigit() su un numero ferma lo script
+- conditions: "{{ valore.isdigit() }}"
+# Sbagliato: 30 non è uguale a '30'
+- conditions: "{{ valore == '30' }}"
+
+# Giusto: | string nel punto in cui lo usi
+- conditions: "{{ (valore | string).isdigit() }}"
+- conditions: "{{ (valore | string) == '30' }}"

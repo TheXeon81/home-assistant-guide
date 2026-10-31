@@ -1,0 +1,7 @@
+# Telecamere Arlo in Home Assistant: quando la foto «nuova» è di due giorni fa (e come accorgersene)
+# Sezione / Section: Parte 1 · controllo di freschezza prima di inviare
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-arlo-foto-non-aggiornata-base-offline.html
+
+snapshot/10-27 15:54
+capture/10-27 15:54

@@ -1,0 +1,3 @@
+{
+  "template": "{% set parole = ['luce', 'scrivania', '50'] %}{{ (parole | select('match', '^[0-9]+([.,][0-9]+)?$') | list + [''])[0] }}"
+}

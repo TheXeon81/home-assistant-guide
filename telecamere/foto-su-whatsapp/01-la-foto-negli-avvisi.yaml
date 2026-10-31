@@ -1,0 +1,11 @@
+# Telecamere su WhatsApp con Home Assistant: foto negli avvisi e scatti a richiesta
+# Sezione / Section: La foto negli avvisi
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-telecamere-whatsapp-foto.html
+
+- action: script.avviso
+  data:
+    evento: movimento_cam1
+    foto: camera.cam1
+    titolo: "Movimento rilevato"
+    messaggio: "📍 Telecamera *CAM1*"

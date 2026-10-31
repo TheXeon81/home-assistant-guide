@@ -1,0 +1,12 @@
+# WhatsApp di casa con Home Assistant: chi può scrivere, mittenti autorizzati e limite giornaliero
+# Sezione / Section: L'elenco nella dashboard
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-whatsapp-mittenti-autorizzati.html
+
+numeri: >-
+  {%- set ns = namespace(l=[]) -%}
+  {%- for i in range(1, 6) -%}
+  {%- set n = states('input_text.wa_aut%d_numero' | format(i)) | regex_replace('[^0-9]', '') -%}
+  {%- if n | length >= 8 %}{% set ns.l = ns.l + [n] %}{% endif -%}
+  {%- endfor -%}
+  {{ ns.l }}

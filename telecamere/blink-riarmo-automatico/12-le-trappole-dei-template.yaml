@@ -1,0 +1,12 @@
+# Blink sempre armato: riarmo automatico, comandi WhatsApp e avvisi con Home Assistant
+# Sezione / Section: Le trappole dei template
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-blink-riarmo-automatico-whatsapp.html
+
+- choose:
+    # 1. prima il rifiuto
+    - conditions: "{{ azione in ['auto', 'minuti'] and not is_admin }}"
+      sequence: [...]
+    # 2. poi i rami che eseguono
+    - conditions: "{{ azione == 'minuti' and (valore | string).isdigit() }}"
+      sequence: [...]

@@ -1,0 +1,8 @@
+# Lista della spesa con Home Assistant: WhatsApp, vocali, Alexa e Google in un'unica nota
+# Sezione / Section: I vocali: il gateway non scaricava l'audio
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-lista-spesa-whatsapp-vocali-alexa.html
+
+environment:
+  ENGINE_TYPE: baileys
+  CHAT_MEDIA_ARCHIVE_ENABLED: "true"

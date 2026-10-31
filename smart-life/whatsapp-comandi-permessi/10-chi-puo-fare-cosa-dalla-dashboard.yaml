@@ -1,0 +1,18 @@
+# Smart Life su WhatsApp: comandare luci, prese, clima e scene di casa con un messaggio (e decidere chi può farlo)
+# Sezione / Section: Chi può fare cosa, dalla dashboard
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-smart-life-whatsapp-comandi-permessi.html
+
+- variables:
+    sezioni: "{{ (state_attr(sensore_mittente, 'smart_life') or '') | string }}"
+- if: "{{ sezioni == '' }}"
+  then:
+    - stop: Nessuna sezione Smart Life per questo mittente
+- action: script.turn_on
+  target:
+    entity_id: script.casa_comando
+  data:
+    variables:
+      testo: "{{ testo }}"
+      chat: "{{ chat }}"
+      sezioni: "{{ sezioni.split(',') }}"

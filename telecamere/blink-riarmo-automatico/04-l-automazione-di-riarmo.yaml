@@ -1,0 +1,35 @@
+# Blink sempre armato: riarmo automatico, comandi WhatsApp e avvisi con Home Assistant
+# Sezione / Section: L'automazione di riarmo
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-blink-riarmo-automatico-whatsapp.html
+
+automation:
+  - id: blink_riarmo_automatico
+    alias: Blink - riarmo automatico
+    mode: single
+    triggers:
+      - trigger: time_pattern
+        minutes: "/1"
+    variables:
+      scaduti: >-
+        {% set l = state_attr('sensor.blink_sistemi', 'sistemi') or [] %}
+        {% set ns = namespace(e=[]) %}
+        {% for s in l if s.stato == 'disarmed' and s.riarmo != '' and as_datetime(s.riarmo) <= now() %}
+          {% set ns.e = ns.e + [s.entity] %}
+        {% endfor %}
+        {{ ns.e }}
+    conditions:
+      - "{{ scaduti | count > 0 }}"
+      # al massimo un tentativo ogni 5 minuti
+      - >-
+        {% set t = state_attr('script.blink_arma', 'last_triggered') %}
+        {{ t is none or now() - t > timedelta(minutes=5) }}
+    actions:
+      - action: input_text.set_value
+        target:
+          entity_id: input_text.blink_ultimo_comando
+        data:
+          value: "arma|riarmo automatico|{{ now().isoformat() }}"
+      - action: script.blink_arma
+        data:
+          sistemi: "{{ scaduti }}"

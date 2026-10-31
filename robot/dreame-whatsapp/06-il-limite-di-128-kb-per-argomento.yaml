@@ -1,0 +1,8 @@
+# Il robot aspirapolvere Dreame su WhatsApp con Home Assistant: avvisi con immagini e comandi
+# Sezione / Section: Il limite di 128 KB per argomento
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-robot-dreame-whatsapp.html
+
+immagine_b64_jpg: >-
+  python3 /config/scripts/immagine_b64.py {{ file }}
+  {%- for i in range(0, b64 | length, 100000) %} {{ b64[i:i + 100000] }}{% endfor %}

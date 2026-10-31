@@ -1,0 +1,14 @@
+# Notifiche WhatsApp da Home Assistant: da una riga di testo a messaggi veri
+# Sezione / Section: Un impaginatore solo
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-notifiche-whatsapp-formattate.html
+
+- action: script.avviso
+  data:
+    evento: temp_cpu
+    titolo: "Temperatura CPU alta"
+    messaggio: "🖥️ Mini PC"
+    dettagli:
+      - "🌡️ CPU: *{{ states('sensor.cpu_temp') | int }} °C* da oltre 5 minuti"
+      - "📈 Soglia: 85 °C"
+    nota: "Controlla ventola e prese d'aria"

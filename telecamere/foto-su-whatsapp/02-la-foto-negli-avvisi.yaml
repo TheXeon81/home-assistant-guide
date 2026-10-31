@@ -1,0 +1,7 @@
+# Telecamere su WhatsApp con Home Assistant: foto negli avvisi e scatti a richiesta
+# Sezione / Section: La foto negli avvisi
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-telecamere-whatsapp-foto.html
+
+data:
+  image: /api/camera_proxy/camera.cam1
