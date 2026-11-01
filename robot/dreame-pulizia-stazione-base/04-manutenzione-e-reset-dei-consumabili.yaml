@@ -1,0 +1,18 @@
+# Robot Dreame da WhatsApp: perché puliva una stanza sola e i nuovi comandi per la stazione base
+# Sezione / Section: Manutenzione e reset dei consumabili
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-dreame-whatsapp-pulizia-stazione-base.html
+
+parti:
+  - nome: Spazzola laterale
+    parole: ['laterale']
+    sensore: sensor.robot_side_brush_left
+    reset: button.robot_reset_side_brush
+  - nome: Filtro
+    parole: ['filtro']
+    sensore: sensor.robot_filter_left
+    reset: button.robot_reset_filter
+  - nome: Spazzola principale
+    parole: ['spazzola', 'principale']
+    sensore: sensor.robot_main_brush_left
+    reset: button.robot_reset_main_brush

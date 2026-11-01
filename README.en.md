@@ -2,14 +2,14 @@
 
 # Home Assistant: the code from my guides
 
-[![Guides](https://img.shields.io/badge/guides-31-41BDF5?logo=homeassistant&logoColor=white)](https://www.lucianoblancato.it/home-assistant/index.html)
+[![Guides](https://img.shields.io/badge/guides-32-41BDF5?logo=homeassistant&logoColor=white)](https://www.lucianoblancato.it/home-assistant/index.html)
 [![License MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
 Ready-to-copy YAML, Python and PowerShell taken from the Home Assistant guides I publish (in Italian) on **[lucianoblancato.it/home-assistant](https://www.lucianoblancato.it/home-assistant/index.html)**. These are the automations, templates and dashboard cards of my own setup: Home Assistant in Docker on a Windows mini PC, notifications and commands over WhatsApp, Arlo and Blink cameras, Smart Life, Google TV, Alexa and more.
 
 This repository holds the code only. Explanations, screenshots, mistakes along the way and FAQs are in the guides on the site: every folder links to its guide. The guides are in Italian; your browser's translator works well on them.
 
-**31 guides, 27 with code, 118 files.**
+**32 guides, 28 with code, 122 files.**
 
 ## How to use it
 
@@ -74,6 +74,7 @@ Entity names, comments and WhatsApp commands are in Italian, as in my setup.
 |---|---|---|
 | The Dreame robot vacuum in Home Assistant: a card with every entity sorted by type, and alerts | [📁 `robot/dreame-scheda`](robot/dreame-scheda) | [Guide (IT)](https://www.lucianoblancato.it/home-assistant/robot-aspirapolvere-dreame-home-assistant.html) |
 | The Dreame robot vacuum on WhatsApp: alerts with images and commands | [📁 `robot/dreame-whatsapp`](robot/dreame-whatsapp) | [Guide (IT)](https://www.lucianoblancato.it/home-assistant/home-assistant-robot-dreame-whatsapp.html) |
+| Dreame robot from WhatsApp: why it cleaned only one room, and new commands for the base station | [📁 `robot/dreame-pulizia-stazione-base`](robot/dreame-pulizia-stazione-base) | [Guide (IT)](https://www.lucianoblancato.it/home-assistant/home-assistant-dreame-whatsapp-pulizia-stazione-base.html) |
 
 ### 💡 Smart Life and Tuya
 

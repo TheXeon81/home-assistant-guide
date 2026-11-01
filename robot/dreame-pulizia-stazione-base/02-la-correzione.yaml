@@ -1,0 +1,16 @@
+# Robot Dreame da WhatsApp: perché puliva una stanza sola e i nuovi comandi per la stazione base
+# Sezione / Section: La correzione
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-dreame-whatsapp-pulizia-stazione-base.html
+
+- wait_template: "{{ is_state('vacuum.robot', 'cleaning') }}"
+  timeout: "00:00:45"
+  continue_on_timeout: true
+- variables:
+    partito: "{{ wait.completed }}"
+    errori:
+      water_tank: "serbatoio dell'acqua pulita vuoto"
+      dirty_water_tank: "serbatoio dell'acqua sporca pieno"
+      battery_low: "batteria scarica"
+    codice: "{{ states('sensor.robot_error') }}"
+    errore: "{{ errori.get(codice, codice) }}"

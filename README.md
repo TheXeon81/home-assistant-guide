@@ -2,14 +2,14 @@
 
 # Home Assistant: il codice delle mie guide
 
-[![Guide](https://img.shields.io/badge/guide-31-41BDF5?logo=homeassistant&logoColor=white)](https://www.lucianoblancato.it/home-assistant/index.html)
+[![Guide](https://img.shields.io/badge/guide-32-41BDF5?logo=homeassistant&logoColor=white)](https://www.lucianoblancato.it/home-assistant/index.html)
 [![Licenza MIT](https://img.shields.io/badge/licenza-MIT-green)](LICENSE)
 
 YAML, script Python e PowerShell pronti da copiare, presi dalle guide su Home Assistant che pubblico su **[lucianoblancato.it/home-assistant](https://www.lucianoblancato.it/home-assistant/index.html)**. Sono le automazioni, i template e le schede del mio impianto: Home Assistant in Docker su un mini PC Windows, notifiche e comandi su WhatsApp, telecamere Arlo e Blink, Smart Life, Google TV, Alexa e altro.
 
 Qui trovi solo il codice. Spiegazioni, schermate, errori incontrati e domande frequenti sono nelle guide sul sito: ogni cartella ha il link alla sua.
 
-**31 guide, 27 con codice, 118 file.**
+**32 guide, 28 con codice, 122 file.**
 
 ## Come usarlo
 
@@ -72,6 +72,7 @@ Qui trovi solo il codice. Spiegazioni, schermate, errori incontrati e domande fr
 |---|---|---|
 | Il robot aspirapolvere Dreame in Home Assistant: una scheda con tutte le entità ordinate per tipo e avvisi su consumabili ed errori | [📁 `robot/dreame-scheda`](robot/dreame-scheda) | [Guida](https://www.lucianoblancato.it/home-assistant/robot-aspirapolvere-dreame-home-assistant.html) |
 | Il robot aspirapolvere Dreame su WhatsApp con Home Assistant: avvisi con immagini e comandi | [📁 `robot/dreame-whatsapp`](robot/dreame-whatsapp) | [Guida](https://www.lucianoblancato.it/home-assistant/home-assistant-robot-dreame-whatsapp.html) |
+| Robot Dreame da WhatsApp: perché puliva una stanza sola e i nuovi comandi per la stazione base | [📁 `robot/dreame-pulizia-stazione-base`](robot/dreame-pulizia-stazione-base) | [Guida](https://www.lucianoblancato.it/home-assistant/home-assistant-dreame-whatsapp-pulizia-stazione-base.html) |
 
 ### 💡 Smart Life e Tuya
 

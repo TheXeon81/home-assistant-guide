@@ -1,0 +1,22 @@
+# Robot Dreame da WhatsApp: perché puliva una stanza sola e i nuovi comandi per la stazione base
+# Sezione / Section: I nuovi comandi per la stazione base
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-dreame-whatsapp-pulizia-stazione-base.html
+
+- if: "{{ state_attr('vacuum.robot', 'washing') == true }}"
+  then:
+    - action: script.whatsapp_rispondi
+      data:
+        chat: "{{ chat }}"
+        testo: "🧽 Lavaggio del panno già in corso"
+    - stop: Già in corso
+- if: "{{ not is_state('vacuum.robot', 'docked') }}"
+  then:
+    - action: script.whatsapp_rispondi
+      data:
+        chat: "{{ chat }}"
+        testo: "🏠 Il robot non è nella base"
+    - stop: Non in base
+- action: button.press
+  target:
+    entity_id: button.robot_self_clean
