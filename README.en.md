@@ -2,14 +2,14 @@
 
 # Home Assistant: the code from my guides
 
-[![Guides](https://img.shields.io/badge/guides-32-41BDF5?logo=homeassistant&logoColor=white)](https://www.lucianoblancato.it/home-assistant/index.html)
+[![Guides](https://img.shields.io/badge/guides-33-41BDF5?logo=homeassistant&logoColor=white)](https://www.lucianoblancato.it/home-assistant/index.html)
 [![License MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
 Ready-to-copy YAML, Python and PowerShell taken from the Home Assistant guides I publish (in Italian) on **[lucianoblancato.it/home-assistant](https://www.lucianoblancato.it/home-assistant/index.html)**. These are the automations, templates and dashboard cards of my own setup: Home Assistant in Docker on a Windows mini PC, notifications and commands over WhatsApp, Arlo and Blink cameras, Smart Life, Google TV, Alexa and more.
 
 This repository holds the code only. Explanations, screenshots, mistakes along the way and FAQs are in the guides on the site: every folder links to its guide. The guides are in Italian; your browser's translator works well on them.
 
-**32 guides, 28 with code, 122 files.**
+**33 guides, 29 with code, 130 files.**
 
 ## How to use it
 
@@ -98,6 +98,12 @@ Entity names, comments and WhatsApp commands are in Italian, as in my setup.
 |---|---|---|
 | The printer in Home Assistant: status with IPP, toner, drum and fuser via SNMP, and an alert before they run out | [📁 `casa/stampante-snmp`](casa/stampante-snmp) | [Guide (IT)](https://www.lucianoblancato.it/home-assistant/stampante-toner-snmp-home-assistant.html) |
 | The Weather card with Met.no: current conditions, hourly and daily forecast, sun and details in three columns | [📁 `casa/meteo-met-no`](casa/meteo-met-no) | [Guide (IT)](https://www.lucianoblancato.it/home-assistant/meteo-met-no-home-assistant.html) |
+
+### 🚗 In the car
+
+| Guide | Code | On the site |
+|---|---|---|
+| Home Assistant in the car with Android Auto: buttons, alerts when leaving and arriving | [📁 `auto/android-auto`](auto/android-auto) | [Guide (IT)](https://www.lucianoblancato.it/home-assistant/home-assistant-android-auto-pulsanti-avvisi-uscita-arrivo.html) |
 
 ## About me
 

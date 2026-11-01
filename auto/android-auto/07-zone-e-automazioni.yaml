@@ -1,0 +1,32 @@
+# Home Assistant in macchina con Android Auto: pulsanti, avvisi all'uscita e all'arrivo
+# Sezione / Section: Zone e automazioni
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-android-auto-pulsanti-avvisi-uscita-arrivo.html
+
+automation:
+  - alias: Auto - uscita da casa
+    triggers:
+      - trigger: state
+        entity_id: device_tracker.telefono
+        from: home
+    conditions:
+      - condition: state
+        entity_id: input_boolean.avvisi_auto
+        state: "on"
+      - condition: state
+        entity_id: binary_sensor.telefono_android_auto
+        state: "on"
+      - condition: template
+        value_template: >-
+          {{ not is_state('alarm_control_panel.casa', 'armed_away')
+             or states('sensor.luci_accese') | int(0) > 0 }}
+    actions:
+      - action: script.auto_notifica
+        data:
+          titolo: "🚗 Stai uscendo"
+          messaggio: "Allarme non armato o luci accese"
+          pulsanti:
+            - action: AUTO_ESCO
+              title: Arma e spegni
+            - action: AUTO_NIENTE
+              title: Lascia così

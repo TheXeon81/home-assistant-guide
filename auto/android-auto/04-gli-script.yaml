@@ -1,0 +1,27 @@
+# Home Assistant in macchina con Android Auto: pulsanti, avvisi all'uscita e all'arrivo
+# Sezione / Section: Gli script
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-android-auto-pulsanti-avvisi-uscita-arrivo.html
+
+  auto_stato:
+    alias: "📋 Stato casa"
+    sequence:
+      - variables:
+          it:
+            armed_away: armato
+            disarmed: disarmato
+            cool: freddo
+            heat: caldo
+            "off": spento
+            docked: alla base
+            cleaning: in pulizia
+          t: "{{ (it.get(states('alarm_control_panel.casa'), states('alarm_control_panel.casa'))) }}"
+      - action: script.auto_notifica
+        data:
+          titolo: "📋 Stato casa"
+          messaggio: >-
+            🛡️ {{ t }} · 💡 {{ states('sensor.luci_accese') }} accese ·
+            🌡️ {{ states('sensor.temperatura_interna') }} °C ·
+            ❄️ {{ it.get(states('climate.condizionatore'), states('climate.condizionatore')) }} ·
+            🔥 gas {{ 'ok' if is_state('binary_sensor.gas', 'off') else 'ALLARME' }} ·
+            🤖 {{ it.get(states('vacuum.robot'), states('vacuum.robot')) }}

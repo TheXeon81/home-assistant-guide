@@ -2,14 +2,14 @@
 
 # Home Assistant: il codice delle mie guide
 
-[![Guide](https://img.shields.io/badge/guide-32-41BDF5?logo=homeassistant&logoColor=white)](https://www.lucianoblancato.it/home-assistant/index.html)
+[![Guide](https://img.shields.io/badge/guide-33-41BDF5?logo=homeassistant&logoColor=white)](https://www.lucianoblancato.it/home-assistant/index.html)
 [![Licenza MIT](https://img.shields.io/badge/licenza-MIT-green)](LICENSE)
 
 YAML, script Python e PowerShell pronti da copiare, presi dalle guide su Home Assistant che pubblico su **[lucianoblancato.it/home-assistant](https://www.lucianoblancato.it/home-assistant/index.html)**. Sono le automazioni, i template e le schede del mio impianto: Home Assistant in Docker su un mini PC Windows, notifiche e comandi su WhatsApp, telecamere Arlo e Blink, Smart Life, Google TV, Alexa e altro.
 
 Qui trovi solo il codice. Spiegazioni, schermate, errori incontrati e domande frequenti sono nelle guide sul sito: ogni cartella ha il link alla sua.
 
-**32 guide, 28 con codice, 122 file.**
+**33 guide, 29 con codice, 130 file.**
 
 ## Come usarlo
 
@@ -96,6 +96,12 @@ Qui trovi solo il codice. Spiegazioni, schermate, errori incontrati e domande fr
 |---|---|---|
 | La stampante in Home Assistant: stato con IPP, toner, tamburo e fusore via SNMP e un avviso prima che finiscano | [📁 `casa/stampante-snmp`](casa/stampante-snmp) | [Guida](https://www.lucianoblancato.it/home-assistant/stampante-toner-snmp-home-assistant.html) |
 | La scheda Meteo di Home Assistant con Met.no: condizioni attuali, previsioni orarie e giornaliere, sole e dettagli in tre colonne | [📁 `casa/meteo-met-no`](casa/meteo-met-no) | [Guida](https://www.lucianoblancato.it/home-assistant/meteo-met-no-home-assistant.html) |
+
+### 🚗 In macchina
+
+| Guida | Codice | Sul sito |
+|---|---|---|
+| Home Assistant in macchina con Android Auto: pulsanti, avvisi all'uscita e all'arrivo | [📁 `auto/android-auto`](auto/android-auto) | [Guida](https://www.lucianoblancato.it/home-assistant/home-assistant-android-auto-pulsanti-avvisi-uscita-arrivo.html) |
 
 ## Chi sono
 

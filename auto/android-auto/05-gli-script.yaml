@@ -1,0 +1,15 @@
+# Home Assistant in macchina con Android Auto: pulsanti, avvisi all'uscita e all'arrivo
+# Sezione / Section: Gli script
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-android-auto-pulsanti-avvisi-uscita-arrivo.html
+
+template:
+  - sensor:
+      - name: Luci accese
+        state: >-
+          {{ ['light.studio', 'light.cucina', 'light.esterno']
+             | select('is_state', 'on') | list | count }}
+        attributes:
+          nomi: >-
+            {{ ['light.studio', 'light.cucina', 'light.esterno']
+               | select('is_state', 'on') | map('state_attr', 'friendly_name') | join(', ') }}

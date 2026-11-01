@@ -1,0 +1,11 @@
+# Home Assistant in macchina con Android Auto: pulsanti, avvisi all'uscita e all'arrivo
+# Sezione / Section: Zone e automazioni
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-android-auto-pulsanti-avvisi-uscita-arrivo.html
+
+zone:
+  - name: Vicino a casa
+    latitude: !secret casa_latitudine
+    longitude: !secret casa_longitudine
+    radius: 1000
+    icon: mdi:home-import-outline

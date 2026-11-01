@@ -1,0 +1,23 @@
+# Home Assistant in macchina con Android Auto: pulsanti, avvisi all'uscita e all'arrivo
+# Sezione / Section: Gli script
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-android-auto-pulsanti-avvisi-uscita-arrivo.html
+
+script:
+  auto_notifica:
+    alias: Notifica in auto
+    fields:
+      titolo: {}
+      messaggio: {}
+      pulsanti: {}
+    sequence:
+      - action: notify.mobile_app_telefono
+        data:
+          title: "{{ titolo }}"
+          message: "{{ messaggio }}"
+          data:
+            car_ui: true
+            channel: Auto
+            importance: high
+            tag: auto
+            actions: "{{ pulsanti | default([]) }}"

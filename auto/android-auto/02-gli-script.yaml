@@ -1,0 +1,24 @@
+# Home Assistant in macchina con Android Auto: pulsanti, avvisi all'uscita e all'arrivo
+# Sezione / Section: Gli script
+# Guida completa (in italiano) / Full guide (in Italian):
+# https://www.lucianoblancato.it/home-assistant/home-assistant-android-auto-pulsanti-avvisi-uscita-arrivo.html
+
+  auto_esco:
+    alias: "🚗 Esco di casa"
+    sequence:
+      - variables:
+          da_spegnere: >-
+            {{ ['light.studio', 'light.cucina', 'light.esterno', 'climate.condizionatore']
+               | select('has_value') | reject('is_state', 'off') | list }}
+      - if: "{{ da_spegnere | count > 0 }}"
+        then:
+          - action: homeassistant.turn_off
+            target:
+              entity_id: "{{ da_spegnere }}"
+      - action: alarm_control_panel.alarm_arm_away
+        target:
+          entity_id: alarm_control_panel.casa
+      - action: script.auto_notifica
+        data:
+          titolo: "🚗 Casa chiusa"
+          messaggio: "🛡️ Allarme armato · 💡 spenti: {{ da_spegnere | count }}"
